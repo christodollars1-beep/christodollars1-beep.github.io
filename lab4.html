@@ -59,13 +59,13 @@
     // 2. Ask the customer for their information
     let name = prompt("What is your name?");
     let item = prompt("What item would you like to order?");
-    let quantity = prompt("How many would you like to order?");
+    let quantity = prompt("How many would you like to order? (1 - 99)");
 
-    // If the quantity isn't a whole number of at least 1, ask again
+    // Ask again unless the answer is a whole number from 1 to 99
     // (clicking Cancel ends the loop so the customer is never stuck)
-    while (quantity !== null && (isNaN(quantity) || Number(quantity) < 1 || !Number.isInteger(Number(quantity)))) {
-      quantity = prompt("Please enter a valid whole number (1 or more):");
-    }
+    while (quantity !== null && (isNaN(quantity) || Number(quantity) < 1 || Number(quantity) > 99 || !Number.isInteger(Number(quantity)))) {
+  quantity = prompt("Please enter a valid whole number (1 - 99):");
+}
 
     // Fallbacks if the customer left a field blank or clicked Cancel
     if (!name || name.trim() === "") name = "Customer";
