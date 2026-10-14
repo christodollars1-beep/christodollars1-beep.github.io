@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Online Store Order</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f4f8;
+      margin: 0;
+      padding: 40px 16px;
+    }
+    .card {
+      max-width: 520px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 10px;
+      padding: 28px 32px;
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
+    }
+    h1 { font-size: 1.5rem; margin-top: 0; color: #1a3d7c; }
+    h2 { font-size: 1.15rem; border-bottom: 1px solid #ddd; padding-bottom: 6px; }
+    ul { list-style: none; padding: 0; }
+    li { padding: 6px 0; }
+    .arrival {
+      background: #e8f5e9;
+      border-left: 4px solid #2e7d32;
+      padding: 10px 14px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+<body>
+ 
+  <div class="card">
+    <!-- 3. Time-appropriate greeting goes here -->
+    <h1 id="greeting"></h1>
+ 
+    <!-- 4. Order data is displayed here -->
+    <h2>Your Order</h2>
+    <ul>
+      <li><strong>Name:</strong> <span id="customerName"></span></li>
+      <li><strong>Item Requested:</strong> <span id="itemName"></span></li>
+      <li><strong>Number of Items:</strong> <span id="itemCount"></span></li>
+      <li><strong>Order Placed:</strong> <span id="orderDate"></span></li>
+    </ul>
+ 
+    <!-- 5. Expected arrival (7 days after the order) -->
+    <p class="arrival">
+      <strong>Expected Arrival:</strong> <span id="arrivalDate"></span>
+    </p>
+  </div>
+ 
+  <script>
+    // 1. Welcome alert when the page opens
+    alert("Welcome to the store!");
+ 
+    // 2. Ask the customer for their information
+    let name = prompt("What is your name?");
+    let item = prompt("What item would you like to order?");
+    let quantity = prompt("How many would you like to order?");
+ 
+    // If the quantity isn't a whole number of at least 1, ask again
+    // (clicking Cancel ends the loop so the customer is never stuck)
+    while (quantity !== null && (isNaN(quantity) || Number(quantity) < 1 || !Number.isInteger(Number(quantity)))) {
+      quantity = prompt("Please enter a valid whole number (1 or more):");
+    }
+ 
+    // Fallbacks if the customer left a field blank or clicked Cancel
+    if (!name || name.trim() === "") name = "Customer";
+    if (!item || item.trim() === "") item = "Not specified";
+    if (quantity === null || quantity.trim() === "") quantity = "Not specified";
+ 
+    // 3. Time-appropriate greeting
+    const orderDate = new Date();          // the moment the order is placed
+    const hour = orderDate.getHours();     // 0 - 23
+    let timeOfDay;
+ 
+    if (hour < 12) {
+      timeOfDay = "Good Morning";
+    } else if (hour < 18) {
+      timeOfDay = "Good Afternoon";
+    } else {
+      timeOfDay = "Good Evening";
+    }
+ 
+    // 5. Arrival date = exactly 7 days after the order date
+    const arrivalDate = new Date(orderDate);
+    arrivalDate.setDate(orderDate.getDate() + 7);
+ 
+    const dateFormat = { weekday: "long", year: "numeric", month: "long", day: "numeric" };
+ 
+    // 4. Put everything on the page
+    // (textContent is used so anything typed in the prompts is shown as plain text)
+    document.getElementById("greeting").textContent =
+      timeOfDay + " " + name.trim() + ", Thank you for Ordering!";
+    document.getElementById("customerName").textContent = name.trim();
+    document.getElementById("itemName").textContent = item.trim();
+    document.getElementById("itemCount").textContent = String(quantity).trim();
+    document.getElementById("orderDate").textContent =
+      orderDate.toLocaleDateString("en-US", dateFormat);
+    document.getElementById("arrivalDate").textContent =
+      arrivalDate.toLocaleDateString("en-US", dateFormat);
+  </script>
+ 
+</body>
+</html>
+
+    
